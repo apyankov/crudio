@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Копирование файла pom.xml
 COPY pom.xml .
-COPY ../.git .git
 
 # Копирование исходного кода
 COPY crudio-common ./crudio-common
