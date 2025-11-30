@@ -1,8 +1,5 @@
 ./git checkout develop
 ./git pull
 
-cd backend
-
 ./docker-api.sh
 
-cd ..
