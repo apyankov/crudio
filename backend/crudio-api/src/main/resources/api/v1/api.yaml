@@ -1,0 +1,39 @@
+openapi: "3.0.0"
+
+info:
+
+  title: "Content Gate external API"
+  version: "0.1.3"
+  description: |
+    Content Gate external API V1 |
+    (<a href="/swagger-ui/index.html?urls.primaryName=API%20V1">Swagger</a>) |
+    (<a href="/redoc/v1/index.html">Redoc</a>)
+
+servers:
+  - url: "/external/api/v0.1"
+    description: >
+      Current Environment
+    variables:
+      scheme:
+        description: >
+          Server protocol
+        default: "http"
+        enum:
+          - http
+          - https
+      authority:
+        description: >
+          Server host name, optionally, including port
+        default: "localhost:8080"
+      prefix:
+        description: >
+          Endpoint prefix
+        default: "external/api/v0.1"
+
+
+
+paths:
+
+  /samples/support/findall:
+    $ref: "samples.yaml#/paths/~1samples~1support~1findAll"
+

@@ -1,0 +1,115 @@
+paths:
+
+  /samples/support/findAll:
+    get:
+      operationId: forTestPurposesSamples
+      summary: SUPPORT-SEARCH-SAMPLES-TEST-ONLY
+      description: для тестов
+      tags:
+        - SAMPLES
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/contextParam"
+
+      responses:
+        200:
+          description: Метод выполнен успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SamplesResponseBody"
+              example:
+                {
+                  "content": [
+                    {
+                      "id": 123,
+                      "name": "тест"
+                    }
+                  ],
+                  "pagination": {
+                    "limit": 10,
+                    "offset": 0,
+                    "totalCount": 1
+                  }
+                }
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+
+    post:
+      operationId: supportSamples
+      summary: SUPPORT-SEARCH-SAMPLES
+      description: Метод для получения samples
+      tags:
+        - SAMPLES
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/contextParam"
+
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SamplesRequestBody"
+
+      responses:
+        200:
+          description: Метод выполнен успешно
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SamplesResponseBody"
+              example:
+                {
+                  "content": [
+                    {
+                      "id": 123,
+                      "name": "тест"
+                    }
+                  ],
+                  "pagination": {
+                    "limit": 10,
+                    "offset": 0,
+                    "totalCount": 1
+                  }
+                }
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+
+components:
+
+  schemas:
+
+    SamplesRequestBody:
+      description: Тело запроса search samples
+      properties:
+        pagination:
+          $ref: "common.yaml#/components/schemas/Pagination"
+
+    SamplesResponseBody:
+      description: Тело ответа search samples
+      properties:
+        content:
+          type: array
+          description: Samples
+          items:
+            $ref: "#/components/schemas/SampleExtDto"
+        pagination:
+          $ref: "common.yaml#/components/schemas/PaginationResponse"
+
+
+    SampleExtDto:
+      type: object
+      properties:
+        id:
+          description: ID sample
+          type: string
+        name:
+          description: Название
+          type: string

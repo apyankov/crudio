@@ -1,0 +1,161 @@
+components:
+
+  parameters:
+
+    contextInQuery:
+      in: "query"
+      name: "context"
+      description: Код контекста запроса
+      schema:
+        type: "string"
+      required: true
+
+    id:
+      in: path
+      name: id
+      description: >
+        Идентификатор
+      schema:
+        type: integer
+        format: int64
+      required: true
+
+    idString:
+      in: path
+      name: id
+      description: >
+        Идентификатор
+      schema:
+        type: "string"
+      required: true
+
+  responses:
+
+    BadRequest:
+      description: Проблема с параметрами запроса
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "BAD_REQUEST"
+            message: "Parameter 'X' is missing"
+
+    Unauthorized:
+      description: Пользователь не авторизован
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "UNAUTHORIZED"
+            message: "Unauthorized"
+
+    Forbidden:
+      description: У пользователя не хватает прав
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "FORBIDDEN"
+            message: "Forbidden"
+
+    NotFound:
+      description: Сущность не найдена
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "NOT_FOUND"
+            message: "Entity not found"
+
+    Conflict:
+      description: Конфликтующее состояние сервера
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "CONFLICT"
+            message: "Data duplication occurred"
+
+    ServerError:
+      description: Неожиданная ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "SOMETHING_WENT_WRONG"
+            message: "Something went wrong"
+
+    UnderlyingServiceError:
+      description: Ошибка сервера, к которому обращается бекенд (например, сервис недоступен)
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "SERVICE_UNAVAILABLE"
+            message: "'service'_is_not_available_now"
+
+  schemas:
+    Error:
+      description: Базовая структура ошибки
+      type: "object"
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: "string"
+        message:
+          type: "string"
+        paths:
+          type: "array"
+          description: Список путей в дереве, имеющих отношение к ошибке. Поле для дополнительной информации
+          items:
+            type: "string"
+        stacktrace:
+          type: "array"
+          description: >
+            Optional field containing stack traces if some exception occurred. Must appear in development run only.
+          items:
+            type: "string"
+
+    DatesInterval:
+      description: Интервал дат
+      type: object
+      properties:
+        dateFrom:
+          type: string
+          format: date-time
+        dateTo:
+          type: string
+          format: date-time
+
+    ArrayOfIds:
+      description: Список идентификаторов
+      type: object
+      properties:
+        id:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentLongId"
+
+    ArrayOfDocIds:
+      description: Список идентификаторов
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+
+    DocumentLongId:
+      description: ID документа, с типом Long
+      type: integer
+      format: int64

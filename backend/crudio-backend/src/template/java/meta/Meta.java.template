@@ -1,0 +1,49 @@
+package meta;
+
+// [@build.timestamp@]
+//
+// THIS FILE WAS AUTOMATICALLY GENERATED FROM TEMPLATE DURING
+// BUILD PROCESS. ALL CHANGES WILL BE LOST ON REBUILD!
+
+public abstract class Meta {
+    public static abstract class Project {
+        // Project title.
+        public static final String NAME = "@project.name@";
+        
+        public static abstract class Version {
+            public static final String MAJOR = "@project.version.major@";
+            public static final String MINOR = "@project.version.minor@";
+            public static final String REVISION = "@project.version.incremental@";
+            public static final String FULL = "@project.version@";
+            
+            private Version() {
+                // Static class.
+            }
+        }
+        
+        private Project() {
+            // Static class.
+        }
+    }
+    
+    public static abstract class Vcs {
+        public static final String BRANCH = "@git.branch@";
+        
+        public static abstract class Commit {
+            public static final String ID = "@git.commit.id@";
+            
+            private Commit() {
+                // Static class.
+            }
+        }
+        
+        private Vcs() {
+            // Static class.
+        }
+    }
+    
+    private Meta ()
+    {
+        // Static class.
+    }
+}

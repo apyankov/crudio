@@ -1,0 +1,4 @@
+{{#required}}@NotNull {{/required}}{{^isPrimitiveType}}{{#isContainer}}{{^isEnum}}
+    @Valid{{/isEnum}}{{/isContainer}}{{^isContainer}}
+    @Valid{{/isContainer}}{{/isPrimitiveType}}
+{{>beanValidationCore}}

@@ -1,0 +1,103 @@
+components:
+
+  parameters:
+    contextParam:
+      in: query
+      name: context
+      description: Код context
+      example: client-1
+      schema:
+        type: string
+      required: true
+
+    idStringParam:
+      name: id
+      in: path
+      required: true
+      description: ID документа
+      schema:
+        type: "string"
+
+  responses:
+
+    BadRequest:
+      description: Проблема с параметрами запроса
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            error: "BAD_REQUEST"
+            message: "Parameter 'X' is missing"
+
+    NotFound:
+      description: Сущность не найдена
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            error: "NOT_FOUND"
+            message: "Entity not found"
+
+    ServerError:
+      description: Неожиданная ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            error: "SOMETHING_WENT_WRONG"
+            message: "Something went wrong"
+  schemas:
+    Error:
+      description: Базовая структура ошибки
+      type: "object"
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: "string"
+        message:
+          type: "string"
+        stacktrace:
+          type: "array"
+          description: >
+            Optional field containing stack traces if some exception occurred. Must appear in development run only.
+          items:
+            type: "string"
+
+    PaginationResponse:
+      description: Информация о пагинации
+      required:
+        - limit
+        - offset
+        - totalCount
+      properties:
+        limit:
+          description: Количество документов
+          type: integer
+          format: int64
+        offset:
+          description: Отступ
+          type: integer
+          format: int64
+        totalCount:
+          description: Всего документов
+          type: integer
+          format: int64
+
+    Pagination:
+      description: Объект пагинация
+      properties:
+        limit:
+          description: Какое количество документов вернуть
+          type: integer
+          format: int32
+          example: 10
+        offset:
+          description: Какое количество документов пропустить
+          type: integer
+          format: int32
+          example: 0

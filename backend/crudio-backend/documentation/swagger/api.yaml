@@ -1,0 +1,191 @@
+openapi: "3.0.0"
+
+info:
+
+  title: "Content Gate API"
+  version: "0.1.3"
+  description: |
+    Content Gate API
+
+    **Version 0.1.3:**
+      - MDM integration API methods for common dictionaries added.
+
+    **Version 0.1.2:**
+      - User profile API added.
+
+    **Version 0.1.1:**
+      - Accounting API added.
+
+    **Version 0.1.0:**
+      - Project template introduced.
+
+servers:
+
+  - url: "/backend/api/v0.1"
+    description: >
+      Current Environment
+  - url: "{scheme}://{authority}/{prefix}"
+    description: >
+      Custom Environment
+    variables:
+      scheme:
+        description: >
+          Server protocol
+        default: "http"
+        enum:
+          - http
+          - https
+      authority:
+        description: >
+          Server host name, optionally, including port
+        default: "localhost:8085"
+      prefix:
+        description: >
+          Endpoint prefix
+        default: "backend/api/v0.1"
+
+components:
+
+  securitySchemes:
+    jwt:
+      type: "http"
+      description: >
+        Authenticate user account using session token.
+      scheme: "bearer"
+
+  parameters:
+
+    userId:
+      in: "path"
+      name: "id"
+      description: >
+        Идентификатор пользователя
+      schema:
+        type: "string"
+      required: true
+
+    sessionId:
+      in: "path"
+      name: "id"
+      description: >
+        Идентификатор сессии
+      schema:
+        type: "string"
+      required: true
+
+
+
+  responses:
+
+    BadRequest:
+      description: Проблема с параметрами запроса
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "BAD_REQUEST"
+            message: "Parameter 'X' is missing"
+
+    Unauthorized:
+      description: Пользователь не авторизован
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "UNAUTHORIZED"
+            message: "Unauthorized"
+
+    Forbidden:
+      description: У пользователя не хватает прав
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "FORBIDDEN"
+            message: "Forbidden"
+
+    NotFound:
+      description: Сущность не найдена
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "NOT_FOUND"
+            message: "Entity not found"
+
+    FilesNotFound:
+      description: Файлы не найдены
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/FilesNotFound"
+
+    Conflict:
+      description: Конфликтующее состояние сервера
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "CONFLICT"
+            message: "Data duplication occurred"
+
+    ServerError:
+      description: Неожиданная ошибка сервера
+      content:
+        application/json:
+          schema:
+            $ref: "common.yaml#/components/schemas/Error"
+          example:
+            error: "SOMETHING_WENT_WRONG"
+            message: "Something went wrong"
+
+  schemas:
+    Error:
+      description: Базовая структура ошибки
+      type: "object"
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: "string"
+        message:
+          type: "string"
+        paths:
+          type: "array"
+          description: Список путей в дереве, имеющих отношение к ошибке. Поле для дополнительной информации
+          items:
+            type: "string"
+        stacktrace:
+          type: "array"
+          description: >
+            Optional field containing stack traces if some exception occurred. Must appear in development run only.
+          items:
+            type: "string"
+
+    FilesNotFound:
+      description: Заготовка для 404
+      type: "object"
+      properties:
+        files:
+          type: "array"
+          items:
+            type: string
+
+
+paths:
+
+  /samples/create:
+    $ref: "samples.yaml#/paths/~1samples~1create"
+
+  /samples/list:
+    $ref: "samples.yaml#/paths/~1samples~1list"
+
+  /samples/{id}:
+    $ref: "samples.yaml#/paths/~1samples~1{id}"
+

@@ -1,0 +1,270 @@
+
+paths:
+
+  /samples/create:
+
+    post:
+      operationId: createSample
+      summary: >
+        POST-SAMPLE
+      description: >
+        Метод для создания sample
+
+      tags:
+        - Samples
+
+      security:
+        - jwt: [ ]
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/contextInQuery"
+
+      requestBody:
+        description: >
+          Тело запроса
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleDto"
+
+      responses:
+        201:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateSampleResponse"
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        401:
+          $ref: "common.yaml#/components/responses/Unauthorized"
+        403:
+          $ref: "common.yaml#/components/responses/Forbidden"
+        409:
+          $ref: "common.yaml#/components/responses/Conflict"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+
+  /samples/list:
+
+    post:
+      operationId: listSamples
+      summary: >
+        GET-SAMPLES
+      description: >
+        Метод для получения списка sample
+
+      tags:
+        - Samples
+
+      security:
+        - jwt: [ ]
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/contextInQuery"
+
+      requestBody:
+        description: >
+          Тело запроса
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SamplesSearchBody"
+
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SamplesSearchResponse"
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        401:
+          $ref: "common.yaml#/components/responses/Unauthorized"
+        403:
+          $ref: "common.yaml#/components/responses/Forbidden"
+        409:
+          $ref: "common.yaml#/components/responses/Conflict"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+  /samples/{id}:
+    put:
+      operationId: updateSample
+      summary: >
+        PUT-SAMPLE
+      description: >
+        Метод для редактирования sample
+
+      tags:
+        - Synonyms
+
+      security:
+        - jwt: [ ]
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/id"
+        - $ref: "common.yaml#/components/parameters/contextInQuery"
+
+      requestBody:
+        description: >
+          Тело запроса
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleDto"
+
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateSampleResponse"
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        401:
+          $ref: "common.yaml#/components/responses/Unauthorized"
+        403:
+          $ref: "common.yaml#/components/responses/Forbidden"
+        409:
+          $ref: "common.yaml#/components/responses/Conflict"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+    get:
+      operationId: getSample
+      summary: >
+        GET-SAMPLE-BY-ID
+      description: >
+        Метод для получения sample по идентификатору
+
+      tags:
+        - Samples
+
+      security:
+        - jwt: [ ]
+
+      parameters:
+        - $ref: "common.yaml#/components/parameters/id"
+        - $ref: "common.yaml#/components/parameters/contextInQuery"
+
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetSampleResponse"
+        400:
+          $ref: "common.yaml#/components/responses/BadRequest"
+        401:
+          $ref: "common.yaml#/components/responses/Unauthorized"
+        403:
+          $ref: "common.yaml#/components/responses/Forbidden"
+        500:
+          $ref: "common.yaml#/components/responses/ServerError"
+
+
+components:
+
+  responses:
+
+  schemas:
+
+    SampleId:
+      description: ID док-та sample
+      type: integer
+      format: int64
+
+    CreateSampleResponse:
+      type: object
+      properties:
+        payload:
+          title: CreateSampleResponsePayload
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/SampleId"
+
+    SamplesSearchBody:
+      properties:
+        filtersData:
+          type: string
+        sort:
+          type: string
+        pagination:
+          type: string
+
+    SamplesSearchResponse:
+      description: SamplesSearchResponse
+      type: object
+      properties:
+        payload:
+          title: SamplesSearchResponsePayload
+          type: object
+          properties:
+            pagination:
+              type: string
+            page:
+              type: array
+              items:
+                $ref: "#/components/schemas/SamplesPageEntity"
+
+    UpdateSampleResponse:
+      type: object
+      properties:
+        payload:
+          title: UpdateSampleResponsePayload
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/SampleId"
+
+    GetSampleResponse:
+      type: object
+      properties:
+        payload:
+          $ref: "#/components/schemas/SampleWithIdDto"
+
+
+    SampleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        isActive:
+          description: Флаг активности
+          type: boolean
+
+    SampleWithIdDto:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/SampleId"
+        - $ref: "#/components/schemas/SampleDto"
+
+    SamplesPageEntity:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/SampleId"
+            name:
+              type: string
+            isActive:
+              description: Флаг активности
+              type: boolean
+        - type: object
+          properties:
+            modificationData:
+              type: string
+
