@@ -1,0 +1,31 @@
+# Использование базового образа с JDK 17
+FROM maven:3.9.6-openjdk-21 AS builder
+
+# Установка рабочей директории
+WORKDIR /app
+
+# Копирование файла pom.xml
+COPY pom.xml .
+
+# Загрузка зависимостей
+RUN mvn dependency:go-offline
+
+# Копирование исходного кода
+COPY crudio-common ./crudio-common
+COPY crudio-backend ./crudio-backend
+COPY crudio-api ./crudio-api
+
+# Сборка приложения
+RUN mvn clean compile package
+
+# Использование более легкого базового образа для финального образа
+FROM openjdk:21-jre-slim
+
+# Установка рабочей директории
+WORKDIR /app
+
+# Копирование JAR-файла из предыдущего шага
+COPY --from=builder /app/crudio-api/target/*.jar crudio-api.jar
+
+# Запуск приложения
+ENTRYPOINT ["java", "-jar", "crudio-api.jar"]

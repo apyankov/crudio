@@ -1,0 +1,1 @@
+docker build -t backend-dock-img ./backend-Dockerfile
