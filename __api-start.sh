@@ -1,1 +1,1 @@
-docker run -d api-dock-img
+docker run -p 8080:8080 -d api-dock-img
