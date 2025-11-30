@@ -25,7 +25,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Копирование JAR-файла из предыдущего шага
-COPY --from=builder /app/crudio-api/target/*.jar crudio-api.jar
+COPY --from=builder /app/crudio-api/target/default/crudio-api.jar crudio-api.jar
 
 # Запуск приложения
 ENTRYPOINT ["java", "-jar", "crudio-api.jar"]

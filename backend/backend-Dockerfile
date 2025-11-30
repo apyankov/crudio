@@ -25,7 +25,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Копирование JAR-файла из предыдущего шага
-COPY --from=builder /app/crudio-backend/target/*.jar crudio-backend.jar
+COPY --from=builder /app/crudio-backend/target/default/crudio-backend.jar crudio-backend.jar
 
 # Запуск приложения
 ENTRYPOINT ["java", "-jar", "crudio-backend.jar"]
