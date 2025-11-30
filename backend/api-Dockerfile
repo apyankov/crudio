@@ -19,7 +19,7 @@ COPY crudio-api ./crudio-api
 RUN mvn clean compile package
 
 # Использование более легкого базового образа для финального образа
-FROM openjdk:21-jre-slim
+FROM openjdk:21-jdk-slim
 
 # Установка рабочей директории
 WORKDIR /app
