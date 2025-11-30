@@ -7,13 +7,13 @@ WORKDIR /app
 # Копирование файла pom.xml
 COPY pom.xml .
 
-# Загрузка зависимостей
-RUN mvn dependency:go-offline
-
 # Копирование исходного кода
 COPY crudio-common ./crudio-common
 COPY crudio-backend ./crudio-backend
 COPY crudio-api ./crudio-api
+
+# Загрузка зависимостей
+RUN mvn dependency:go-offline
 
 # Сборка приложения
 RUN mvn clean compile package
