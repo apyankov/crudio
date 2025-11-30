@@ -468,27 +468,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<version>3.0.1</version>
-				<configuration>
-					<dotGitDirectory>${project.origin}/.git</dotGitDirectory>
-					<dateFormat>MM-dd-yyyy '@' HH:mm:ss Z</dateFormat>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>src/main/resources/git.properties</generateGitPropertiesFilename>
-					<!-- True by default, controls whether the plugin will
-                         fail when no .git directory is found, when set to false
-                         the plugin will just skip execution -->
-					<failOnNoGitDirectory>true</failOnNoGitDirectory>
-					<!-- True by default, controls whether the plugin will
-                         fail if it was unable to obtain enough data for a complete
-                         run, if you don't care about this, you may want to set this
-                         value to false. -->
-					<failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
