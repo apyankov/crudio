@@ -1,1 +1,1 @@
-docker build -t api-dock-img ./api-Dockerfile
+docker build -t api-dock-img -f ./api-Dockerfile .
